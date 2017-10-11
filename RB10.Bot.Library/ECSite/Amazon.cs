@@ -8,18 +8,23 @@ namespace RB10.Bot.Library.ECSite
 {
     public class Amazon : ECBase
     {
-        public string ShopName { get; set; }
+        public string PurchaseShopName { get; set; }
         private System.Text.RegularExpressions.Regex _reg = new System.Text.RegularExpressions.Regex(@"この商品は、(?<shop>.*)が販売");
 
         public override void Run()
         {
+            Cancel = false;
             var webDriver = GetWebDriver(WebDriver);
             webDriver.Url = ItemUrl;
 
             while (true)
             {
+                if (Cancel) return;
+
                 while (true)
                 {
+                    if (Cancel) return;
+
                     try
                     {
                         // 販売元確認
@@ -27,9 +32,9 @@ namespace RB10.Bot.Library.ECSite
                         var match = _reg.Match(merchant);
                         string shopName = match.Success ? match.Groups["shop"].Value : "";
 
-                        if (ShopName != shopName)
+                        if (PurchaseShopName != shopName)
                         {
-                            throw new Exception($"not {ShopName}.");
+                            throw new Exception($"not {PurchaseShopName}.");
                         }
 
                         // カートに入れる
@@ -38,7 +43,7 @@ namespace RB10.Bot.Library.ECSite
                     }
                     catch (Exception)
                     {
-                        System.Threading.Thread.Sleep(30000);
+                        System.Threading.Thread.Sleep(10000);
                         webDriver.Url = ItemUrl;
                     }
                 }

@@ -12,7 +12,7 @@ namespace RB10.Bot.Amazon
 {
     public partial class ExecForm : Form
     {
-        private bool _isPause;
+        private Library.ECSite.ECBase _ec;
 
         public ExecForm()
         {
@@ -27,67 +27,21 @@ namespace RB10.Bot.Amazon
             LoginIDTextBox.Text = Properties.Settings.Default.LoginID;
         }
 
-        private void RunButton_Click(object sender, EventArgs e)
+        private void RunAmazonButton_Click(object sender, EventArgs e)
         {
             try
             {
-                OpenQA.Selenium.Remote.RemoteWebDriver webDriver = new OpenQA.Selenium.Chrome.ChromeDriver();
-                webDriver.Url = UrlTextBox.Text;
-
-                while (true)
+                _ec = new Library.ECSite.Amazon
                 {
-                    while (true)
-                    {
-                        try
-                        {
-                            // 販売元確認
-                            var shop = webDriver.FindElementById("merchant-info").Text;
-                            shop =
-                                shop.Split(new string[1] { "が販売" }, StringSplitOptions.None)[0]
-                                .Split(new string[1] { "この商品は、" }, StringSplitOptions.None)[1];
-
-                            //if (ShopNameTextBox.Text != shop)
-                            //{
-                            //    throw new Exception("not Amazon.");
-                            //}
-
-                            // カートに入れる
-                            webDriver.FindElementById("add-to-cart-button").Click();
-                            break;
-                        }
-                        catch (Exception)
-                        {
-                            System.Threading.Thread.Sleep(30000);
-                            webDriver.Url = UrlTextBox.Text;
-                        }
-                    }
-
-                    // 購入手続き
-                    webDriver.Url = "https://www.amazon.co.jp/gp/cart/view.html/ref=nav_cart";
-                    webDriver.FindElementByName("proceedToCheckout").Click();
-
-                    // ログイン
-                    try
-                    {
-                        webDriver.FindElementById("ap_email").SendKeys(LoginIDTextBox.Text);
-                        webDriver.FindElementById("ap_password").SendKeys(PasswordTextBox.Text);
-                        webDriver.FindElementById("signInSubmit").Click();
-                    }
-                    catch (Exception)
-                    {
-                    }
-
-                    // 値段の確認
-                    var p = webDriver.FindElementByCssSelector("td.grand-total-price").Text;
-                    if (Convert.ToInt32(p.Split(' ')[1].Replace(",", "")) > Convert.ToInt32(UpperLimitPriceTextBox.Text))
-                    {
-                        continue;
-                    }
-
-                    //// 注文の確定
-                    //webDriver.FindElementByName("placeYourOrder1").Click();
-                    break;
-                }
+                    ItemUrl = UrlTextBox.Text,
+                    LoginID = LoginIDTextBox.Text,
+                    Password = PasswordTextBox.Text,
+                    PurchaseShopName = ShopNameTextBox.Text,
+                    UpperLimitPrice = Convert.ToDecimal(UpperLimitPriceTextBox.Text),
+                    WebDriver = Library.ECSite.ECBase.WebDriverType.Chrome,
+                    FixedOrder = PurchaseCheckBox.Checked
+                };
+                _ec.Run();
             }
             catch (Exception ex)
             {
@@ -95,11 +49,11 @@ namespace RB10.Bot.Amazon
             }
         }
 
-        private void CancelButton_Click(object sender, EventArgs e)
+        private void CancelAmazonButton_Click(object sender, EventArgs e)
         {
             try
             {
-                _isPause = true;
+                _ec.Cancel = true;
             }
             catch (Exception ex)
             {

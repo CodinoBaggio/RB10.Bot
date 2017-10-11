@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="ECSite\Amazon.cs" />
     <Compile Include="ECSite\ECBase.cs" />
+    <Compile Include="Mail\Gmail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

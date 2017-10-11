@@ -22,6 +22,7 @@ namespace RB10.Bot.Library.ECSite
         public string ItemUrl { get; set; }
         public decimal UpperLimitPrice { get; set; }
         public bool FixedOrder { get; set; } = false;
+        public bool Cancel { get; set; }
 
         public abstract void Run();
 
