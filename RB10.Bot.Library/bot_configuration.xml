@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<Configuration>
+    <Common>
+        <ToMailAddress>codino.baggio10@gmail.com</ToMailAddress>
+    </Common>
+    <EcSite>
+        <Amazon>
+            <ItemUrl>https://www.amazon.co.jp/dp/B01N5QLLT3?ref=emc_b_5_i&amp;th=1</ItemUrl>
+            <ShopName>Amazon</ShopName>
+            <UpperLimitPrice>33500</UpperLimitPrice>
+            <LoginID>codino.baggio10@gmail.com</LoginID>
+        </Amazon>
+        <Rakuten>
+            <LoginID>baggio10codino</LoginID>
+        </Rakuten>
+    </EcSite>
+</Configuration>
+   
