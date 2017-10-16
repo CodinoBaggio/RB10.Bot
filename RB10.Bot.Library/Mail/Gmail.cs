@@ -10,13 +10,13 @@ namespace RB10.Bot.Library.Mail
 {
     public class Gmail
     {
-        public static void Send()
+        public static void Send(string toMailAddress, string password)
         {
-            var fromAddress = new MailAddress("from-gmail-address-sample@gmail.com", "from name");
-            var toAddress = new MailAddress("to-gmail-address-sample@gmail.com", "to name");
-            const string fromPassword = "gmailPassword";
-            const string subject = "GMAIL TITLE";
-            const string body = "GMAIL BODY";
+            var fromAddress = new MailAddress("codino.baggio10@gmail.com", "BOTマスター");
+            var toAddress = new MailAddress(toMailAddress);
+            string fromPassword = password;
+            const string subject = "商品が見つかりました。";
+            const string body = "お探しの商品が見つかりました。\nカートに入っているか、すでに購入済みです。";
 
             var smtp = new SmtpClient
             {
