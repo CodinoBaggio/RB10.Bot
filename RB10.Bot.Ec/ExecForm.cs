@@ -24,6 +24,7 @@ namespace RB10.Bot.Ec
 
         private void ExecForm_Load(object sender, EventArgs e)
         {
+            ToMailAddressTextBox.Text = _config.Common.ToMailAddress;
             UrlTextBox.Text = _config.EcSite.Amazon.ItemUrl;
             ShopNameTextBox.Text = _config.EcSite.Amazon.ShopName;
             UpperLimitPriceTextBox.Text = _config.EcSite.Amazon.UpperLimitPrice.ToString();
