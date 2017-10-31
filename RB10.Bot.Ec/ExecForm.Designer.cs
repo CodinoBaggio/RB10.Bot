@@ -63,11 +63,19 @@
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label10 = new System.Windows.Forms.Label();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.ToysrusUrlTextBox = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.ToysrusJanCodeFilePathTextBox = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.RunToysrusButton = new System.Windows.Forms.Button();
+            this.ToysrusFileSelectButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.MailPanel.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // RunAmazonButton
@@ -223,6 +231,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(12, 147);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -427,6 +436,79 @@
             this.label10.TabIndex = 3;
             this.label10.Text = "ログ";
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.ToysrusFileSelectButton);
+            this.tabPage3.Controls.Add(this.RunToysrusButton);
+            this.tabPage3.Controls.Add(this.ToysrusJanCodeFilePathTextBox);
+            this.tabPage3.Controls.Add(this.label12);
+            this.tabPage3.Controls.Add(this.ToysrusUrlTextBox);
+            this.tabPage3.Controls.Add(this.label11);
+            this.tabPage3.Location = new System.Drawing.Point(4, 27);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(949, 242);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "トイザらス";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // ToysrusUrlTextBox
+            // 
+            this.ToysrusUrlTextBox.Location = new System.Drawing.Point(154, 23);
+            this.ToysrusUrlTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ToysrusUrlTextBox.Name = "ToysrusUrlTextBox";
+            this.ToysrusUrlTextBox.Size = new System.Drawing.Size(780, 25);
+            this.ToysrusUrlTextBox.TabIndex = 3;
+            this.ToysrusUrlTextBox.Text = "https://www.toysrus.co.jp/";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(14, 27);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(134, 18);
+            this.label11.TabIndex = 2;
+            this.label11.Text = "トイザらスon line URL";
+            // 
+            // ToysrusJanCodeFilePathTextBox
+            // 
+            this.ToysrusJanCodeFilePathTextBox.Location = new System.Drawing.Point(154, 56);
+            this.ToysrusJanCodeFilePathTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ToysrusJanCodeFilePathTextBox.Name = "ToysrusJanCodeFilePathTextBox";
+            this.ToysrusJanCodeFilePathTextBox.Size = new System.Drawing.Size(745, 25);
+            this.ToysrusJanCodeFilePathTextBox.TabIndex = 5;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(14, 60);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(138, 18);
+            this.label12.TabIndex = 4;
+            this.label12.Text = "JANコードファイルパス";
+            // 
+            // RunToysrusButton
+            // 
+            this.RunToysrusButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.RunToysrusButton.Location = new System.Drawing.Point(821, 210);
+            this.RunToysrusButton.Name = "RunToysrusButton";
+            this.RunToysrusButton.Size = new System.Drawing.Size(113, 26);
+            this.RunToysrusButton.TabIndex = 13;
+            this.RunToysrusButton.Text = "実行";
+            this.RunToysrusButton.UseVisualStyleBackColor = true;
+            this.RunToysrusButton.Click += new System.EventHandler(this.RunToysrusButton_Click);
+            // 
+            // ToysrusFileSelectButton
+            // 
+            this.ToysrusFileSelectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ToysrusFileSelectButton.Location = new System.Drawing.Point(905, 56);
+            this.ToysrusFileSelectButton.Name = "ToysrusFileSelectButton";
+            this.ToysrusFileSelectButton.Size = new System.Drawing.Size(29, 26);
+            this.ToysrusFileSelectButton.TabIndex = 14;
+            this.ToysrusFileSelectButton.Text = "...";
+            this.ToysrusFileSelectButton.UseVisualStyleBackColor = true;
+            this.ToysrusFileSelectButton.Click += new System.EventHandler(this.ToysrusFileSelectButton_Click);
+            // 
             // ExecForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 18F);
@@ -451,6 +533,8 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -492,6 +576,13 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.Button ToysrusFileSelectButton;
+        private System.Windows.Forms.Button RunToysrusButton;
+        private System.Windows.Forms.TextBox ToysrusJanCodeFilePathTextBox;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox ToysrusUrlTextBox;
+        private System.Windows.Forms.Label label11;
     }
 }
 

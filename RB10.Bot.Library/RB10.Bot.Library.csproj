@@ -49,6 +49,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="ECSite\Amazon.cs" />
     <Compile Include="ECSite\ECBase.cs" />
+    <Compile Include="ECSite\Toysrus.cs" />
     <Compile Include="Mail\Gmail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

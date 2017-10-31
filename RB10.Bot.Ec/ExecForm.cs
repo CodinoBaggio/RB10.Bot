@@ -147,5 +147,47 @@ namespace RB10.Bot.Ec
                 }
             }
         }
+
+        private void ToysrusFileSelectButton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "csvファイル (*.csv)|*.csv|すべてのファイル (*.*)|*.*";
+            if (dlg.ShowDialog() == DialogResult.Cancel) return;
+
+            ToysrusJanCodeFilePathTextBox.Text = dlg.FileName;
+        }
+
+        private void RunToysrusButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (ToysrusUrlTextBox.Text == "") throw new ApplicationException("トイザらスon line URLを入力してください。");
+                if (ToysrusJanCodeFilePathTextBox.Text == "") throw new ApplicationException("JANコードファイルパスを入力してください。");
+
+                SaveFileDialog dlg = new SaveFileDialog();
+                dlg.FileName = System.IO.Path.GetFileNameWithoutExtension(ToysrusJanCodeFilePathTextBox.Text) + "_result.csv";
+                if (dlg.ShowDialog() == DialogResult.Cancel) return;
+
+                var param = new Library.ECSite.Toysrus.ToysrusParameters
+                {
+                    WebDriver = GetWebDriverType(),
+                    ItemUrl = ToysrusUrlTextBox.Text,
+                    JanCodeFileName = ToysrusJanCodeFilePathTextBox.Text,
+                    OutputFilePath = dlg.FileName
+                };
+
+                _ec = new Library.ECSite.Toysrus(param);
+                _ec.ExecutingStateChanged += Ec_ExecutingStateChanged;
+                _ec.Start();
+            }
+            catch (ApplicationException ex)
+            {
+                MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
