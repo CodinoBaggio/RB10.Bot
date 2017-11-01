@@ -13,12 +13,10 @@ namespace RB10.Bot.Library.ECSite
         private class SearchResul
         {
             public string JanCode { get; set; }
-            public string ProductName { get; set; }
+            public string ProductName { get; set; } = "";
             public string OnlineStock { get; set; } = "在庫なし";
-            public string StoreStock { get; set; } = "在庫なし";
-            public int StoreStockCount { get; set; }
-            public string StoreLessStock { get; set; } = "在庫なし";
-            public int StoreLessStockCount { get; set; }
+            public int StoreStockCount { get; set; } = -1;
+            public int StoreLessStockCount { get; set; } = -1;
         }
 
         public class ToysrusParameters : ExecParameters
@@ -29,7 +27,8 @@ namespace RB10.Bot.Library.ECSite
 
         private ToysrusParameters _parameters { get; set; }
         private System.Text.RegularExpressions.Regex _regStoreStock = new System.Text.RegularExpressions.Regex(@"在庫のある店舗：(?<shop>.*)店舗");
-        private System.Text.RegularExpressions.Regex _regStoreLessStock = new System.Text.RegularExpressions.Regex(@"この商品は、(?<shop>.*)が販売");
+        private System.Text.RegularExpressions.Regex _exist = new System.Text.RegularExpressions.Regex("<div class=\"status\">在庫あり</div>");
+        private System.Text.RegularExpressions.Regex _lessExist = new System.Text.RegularExpressions.Regex("<div class=\"status\">在庫わずか</div>");
 
         public Toysrus(ToysrusParameters parameters) : base(parameters)
         {
@@ -52,126 +51,79 @@ namespace RB10.Bot.Library.ECSite
                 {
                     if (CancelToken.IsCancellationRequested) return;
 
-                    webDriver.FindElementById("q").SendKeys(line);
-                    webDriver.FindElementById("UPPER_SEARCH").Click();
-                    var productName = webDriver.FindElementById("DISP_GOODS_NM").Text;
-                    var stock = webDriver.FindElementById("isStock").Text;
-
-                    var aaa = webDriver.FindElementById("pref-list");
-                    aaa.SendKeys("北海道");
-
-                    var bbb = webDriver.FindElementById("StockSearchButton");
-                    bbb.Click();
-
-                    var current = webDriver.CurrentWindowHandle;
-                    var last = webDriver.WindowHandles.Last();
-                    webDriver.SwitchTo().Window(last);
-
-                    var vvv = webDriver.FindElementByClassName("list-up");
-
-                    
-
-
-
-
-
                     var result = new SearchResul();
+                    results.Add(result);
                     result.JanCode = line;
-                    result.ProductName = productName;
-                    result.OnlineStock = stock;
 
                     try
                     {
-                        var storeStock = webDriver.FindElementById("hogehoge");
-                        if (storeStock != null)
-                        {
+                        // 検索実行
+                        webDriver.FindElementById("q").SendKeys(line);
+                        webDriver.FindElementById("UPPER_SEARCH").Click();
 
+                        var productName = webDriver.FindElementsById("DISP_GOODS_NM");
+                        if (productName.Count == 0)
+                        {
+                            result.OnlineStock = "商品登録なし";
+                            continue;
+                        }
+                        else
+                        {
+                            result.ProductName = productName.First().Text;
+                        }
+                        var stock = webDriver.FindElementsById("isStock");
+                        if (0 < stock.Count)
+                        {
+                            result.OnlineStock = stock.First().Text;
+                        }
+                        else
+                        {
+                            result.OnlineStock = "-";
                         }
 
+                        var currentHandle = webDriver.CurrentWindowHandle;
 
+                        bool switchSuccess = false;
+                        string lastHandle = "";
 
+                        try
+                        {
+                            // 店舗在庫取得
+                            webDriver.FindElementById("StockSearchButton").Click();
+
+                            lastHandle = webDriver.WindowHandles.Last();
+                            webDriver.SwitchTo().Window(lastHandle);
+                            switchSuccess = true;
+
+                            int existCount = _exist.Matches(webDriver.PageSource).Count;
+                            int lessExistCount = _lessExist.Matches(webDriver.PageSource).Count;
+                            result.StoreStockCount = existCount;
+                            result.StoreLessStockCount = lessExistCount;
+                        }
+                        catch (Exception)
+                        {
+                            throw;
+                        }
+                        finally
+                        {
+                            if (switchSuccess) webDriver.Close();
+                            webDriver.SwitchTo().Window(currentHandle);
+                        }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        ReportStatus(EC_SITE, ex.ToString(), ReportState.Warning);
                     }
                 }
 
                 // ファイル出力
                 StringBuilder sb = new StringBuilder();
+                sb.AppendLine("JANコード,商品名,オンライン在庫,店舗在庫あり数,店舗在庫わずか数");
                 foreach (var result in results)
                 {
-                    sb.AppendLine($"{result.JanCode},{result.ProductName},{result.OnlineStock},{result.StoreStock},{result.StoreStockCount},{result.StoreLessStock},{result.StoreLessStockCount}");
+                    sb.AppendLine($"{result.JanCode},{result.ProductName},{result.OnlineStock},{result.StoreStockCount},{result.StoreLessStockCount}");
                 }
-                System.IO.File.WriteAllText(_parameters.OutputFilePath, sb.ToString());
-
-                //while (true)
-                //{
-                //    if (CancelToken.IsCancellationRequested) return;
-
-                //    while (true)
-                //    {
-                //        if (CancelToken.IsCancellationRequested) return;
-
-                //        // 販売元確認
-                //        var merchant = webDriver.FindElementById("merchant-info").Text;
-                //        var match = _reg.Match(merchant);
-                //        string shopName = match.Success ? match.Groups["shop"].Value : "";
-                //        if (Parameters.PurchaseShopName.ToLower() != shopName.ToLower())
-                //        {
-                //            ReportStatus(EC_SITE, $"商品が指定したショップのものではありません。ショップ名：{shopName}", ReportState.Warning);
-                //            System.Threading.Thread.Sleep(10000);
-                //            webDriver.Url = Parameters.ItemUrl;
-                //        }
-                //        else
-                //        {
-                //            ReportStatus(EC_SITE, $"指定したショップの商品が見つかりました。ショップ名：{Parameters.PurchaseShopName}", ReportState.Information);
-                //            break;
-                //        }
-                //    }
-
-                //    // カートに入れる
-                //    webDriver.FindElementById("add-to-cart-button").Click();
-                //    ReportStatus(EC_SITE, $"商品をカートに入れました。", ReportState.Information);
-
-                //    // 購入手続き
-                //    webDriver.Url = "https://www.amazon.co.jp/gp/cart/view.html/ref=nav_cart";
-                //    webDriver.FindElementByName("proceedToCheckout").Click();
-                //    ReportStatus(EC_SITE, $"購入手続きに進みました。", ReportState.Information);
-
-                //    // ログイン
-                //    try
-                //    {
-                //        webDriver.FindElementById("ap_email").SendKeys(Parameters.LoginID);
-                //        webDriver.FindElementById("ap_password").SendKeys(Parameters.Password);
-                //        webDriver.FindElementById("signInSubmit").Click();
-                //        ReportStatus(EC_SITE, $"ログインを行いました。", ReportState.Information);
-                //    }
-                //    catch (Exception)
-                //    {
-                //    }
-
-                //    // 値段の確認
-                //    var p = webDriver.FindElementByCssSelector("td.grand-total-price").Text;
-                //    if (Convert.ToInt32(p.Split(' ')[1].Replace(",", "")) > Convert.ToInt32(Parameters.UpperLimitPrice))
-                //    {
-                //        ReportStatus(EC_SITE, $"商品の値段が上限を超えているので、再度商品検索を行います。", ReportState.Information);
-                //        continue;
-                //    }
-
-                //    if (Parameters.FixedOrder)
-                //    {
-                //        // 注文の確定
-                //        webDriver.FindElementByName("placeYourOrder1").Click();
-                //        ReportStatus(EC_SITE, $"注文の確定を行いました。", ReportState.Information);
-                //    }
-
-                //    if (Parameters.IsSendMail)
-                //    {
-                //        Library.Mail.Gmail.Send(Parameters.ToMailAddress, Parameters.MailPassword);
-                //    }
-
-                //    break;
-                //}
+                if(0 < results.Count) System.IO.File.WriteAllText(_parameters.OutputFilePath, sb.ToString());
             }
             catch (Exception ex)
             {
