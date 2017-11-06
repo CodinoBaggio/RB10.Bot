@@ -84,7 +84,7 @@ namespace RB10.Bot.Library.ECSite
                     var driverService = OpenQA.Selenium.Chrome.ChromeDriverService.CreateDefaultService();
                     driverService.HideCommandPromptWindow = true;
                     var options = new OpenQA.Selenium.Chrome.ChromeOptions();
-                    //options.AddArgument("--headless");
+                    options.AddArgument("--headless");
                     //options.AddArgument("--window-size=100,100");
                     return new OpenQA.Selenium.Chrome.ChromeDriver(driverService, options);
                 case WebDriverType.IE:

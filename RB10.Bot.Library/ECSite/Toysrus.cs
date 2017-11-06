@@ -124,6 +124,8 @@ namespace RB10.Bot.Library.ECSite
                     sb.AppendLine($"{result.JanCode},{result.ProductName},{result.OnlineStock},{result.StoreStockCount},{result.StoreLessStockCount}");
                 }
                 if(0 < results.Count) System.IO.File.WriteAllText(_parameters.OutputFilePath, sb.ToString());
+
+                ReportStatus(EC_SITE, "終了", ReportState.Information);
             }
             catch (Exception ex)
             {
