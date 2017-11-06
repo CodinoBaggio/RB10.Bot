@@ -59,19 +59,8 @@ namespace RB10.Bot.WebApi.Controllers
 
             try
             {
-                var url = $"https://www.toysrus.co.jp/search/?q={janCode}";
-                var req = (HttpWebRequest)WebRequest.Create(url);
-
                 // html取得文字列
-                string html;
-
-                using (var res = (HttpWebResponse)req.GetResponse())
-                using (var resSt = res.GetResponseStream())
-                using (var sr = new StreamReader(resSt, Encoding.UTF8))
-                {
-                    html = sr.ReadToEnd();
-                }
-
+                string html = GetHtml($"https://www.toysrus.co.jp/search/?q={janCode}");
                 var parser = new HtmlParser();
                 var doc = parser.Parse(html);
 
@@ -106,28 +95,21 @@ namespace RB10.Bot.WebApi.Controllers
                     }
                 }
 
-                var sku = doc.GetElementsByName("MAIN_SKU");
-                if (sku == null)
-                {
-                    throw new ApplicationException("トイザらスの商品コードが取得できなかったため、店舗在庫の取得ができません。");
-                }
-                var storeUrl = $"https://www.toysrus.co.jp/disp/CSfGoodsPageRealShop_001.jsp?sku={(sku[0] as AngleSharp.Dom.Html.IHtmlInputElement).Value}&shopCd=";
+                //var sku = doc.GetElementsByName("MAIN_SKU");
+                //if (sku == null)
+                //{
+                //    throw new ApplicationException("トイザらスの商品コードが取得できなかったため、店舗在庫の取得ができません。");
+                //}
+                //var storeUrl = $"https://www.toysrus.co.jp/disp/CSfGoodsPageRealShop_001.jsp?sku={(sku[0] as AngleSharp.Dom.Html.IHtmlInputElement).Value}&shopCd=";
+                //html = GetHtml(storeUrl);
+                //doc = parser.Parse(html);
 
-                req = (HttpWebRequest)WebRequest.Create(storeUrl);
-                using (var res = (HttpWebResponse)req.GetResponse())
-                using (var resSt = res.GetResponseStream())
-                using (var sr = new StreamReader(resSt, Encoding.UTF8))
-                {
-                    html = sr.ReadToEnd();
-                }
-                doc = parser.Parse(html);
+                //var source = doc.Source.Text;
 
-                var source = doc.Source.Text;
-
-                int existCount = _exist.Matches(source).Count;
-                int lessExistCount = _lessExist.Matches(source).Count;
-                result.StoreStockCount = existCount;
-                result.StoreLessStockCount = lessExistCount;
+                //int existCount = _exist.Matches(source).Count;
+                //int lessExistCount = _lessExist.Matches(source).Count;
+                //result.StoreStockCount = existCount;
+                //result.StoreLessStockCount = lessExistCount;
 
                 result.Status = Status.Success;
             }
@@ -143,6 +125,38 @@ namespace RB10.Bot.WebApi.Controllers
             }
 
             return result;
+        }
+
+        private string GetHtml(string url)
+        {
+            HttpWebRequest req = null;
+
+            try
+            {
+                req = (HttpWebRequest)WebRequest.Create(url);
+                req.Timeout = 100000;
+                req.UserAgent = "ToysrusBot (+codino.baggio10@gmail.com)";
+
+                // html取得文字列
+                string html = "";
+
+                using (var res = (HttpWebResponse)req.GetResponse())
+                using (var resSt = res.GetResponseStream())
+                using (var sr = new StreamReader(resSt, Encoding.UTF8))
+                {
+                    html = sr.ReadToEnd();
+                }
+
+                return html;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                if (req != null) req.Abort();
+            }
         }
     }
 }
