@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RB10.Bot.WebApi", "RB10.Bot
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RB10.Bot.Crawler", "RB10.Bot.Crawler\RB10.Bot.Crawler.csproj", "{96DBE6E4-6F8F-47CC-BB7A-F1B673E5B175}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RB10.Bot.Line", "RB10.Bot.Line\RB10.Bot.Line.csproj", "{FF543A19-3720-48CB-92E7-C1F4C8D9B21A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{96DBE6E4-6F8F-47CC-BB7A-F1B673E5B175}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96DBE6E4-6F8F-47CC-BB7A-F1B673E5B175}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96DBE6E4-6F8F-47CC-BB7A-F1B673E5B175}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF543A19-3720-48CB-92E7-C1F4C8D9B21A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF543A19-3720-48CB-92E7-C1F4C8D9B21A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF543A19-3720-48CB-92E7-C1F4C8D9B21A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF543A19-3720-48CB-92E7-C1F4C8D9B21A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
