@@ -11,7 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RB10.Bot.WebApi", "RB10.Bot
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RB10.Bot.Crawler", "RB10.Bot.Crawler\RB10.Bot.Crawler.csproj", "{96DBE6E4-6F8F-47CC-BB7A-F1B673E5B175}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RB10.Bot.Line", "RB10.Bot.Line\RB10.Bot.Line.csproj", "{FF543A19-3720-48CB-92E7-C1F4C8D9B21A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RB10.Bot.Line", "RB10.Bot.Line\RB10.Bot.Line.csproj", "{FF543A19-3720-48CB-92E7-C1F4C8D9B21A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RB10.Bot.Functions", "RB10.Bot.Functions\RB10.Bot.Functions.csproj", "{53B4526B-42FC-4B98-8F16-6195530AD8AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{FF543A19-3720-48CB-92E7-C1F4C8D9B21A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF543A19-3720-48CB-92E7-C1F4C8D9B21A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF543A19-3720-48CB-92E7-C1F4C8D9B21A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53B4526B-42FC-4B98-8F16-6195530AD8AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53B4526B-42FC-4B98-8F16-6195530AD8AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53B4526B-42FC-4B98-8F16-6195530AD8AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53B4526B-42FC-4B98-8F16-6195530AD8AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
