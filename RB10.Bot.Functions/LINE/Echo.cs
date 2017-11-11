@@ -17,8 +17,6 @@ namespace RB10.Bot.Functions.LINE
         [FunctionName("Echo")]
         public static async Task<HttpResponseMessage> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)]HttpRequestMessage req, TraceWriter log)
         {
-            log.Info("Start");
-
             // リクエストJSONをパース
             string jsonContent = await req.Content.ReadAsStringAsync();
             Request data = JsonConvert.DeserializeObject<Request>(jsonContent);

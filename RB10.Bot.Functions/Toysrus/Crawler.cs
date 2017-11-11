@@ -8,25 +8,32 @@ using AngleSharp.Parser.Html;
 using System.Configuration;
 using System.Linq;
 using System.Net.Http;
+using Line.Messaging;
 
 namespace RB10.Bot.Functions.Toysrus
 {
     public static class Crawler
     {
         [FunctionName("Crawler")]
-        public static async void Run([TimerTrigger("0 * * * * *")]TimerInfo myTimer, TraceWriter log)
+        public static void Run([TimerTrigger("0 * * * * *")]TimerInfo myTimer, TraceWriter log)
         {
-            log.Info($"{DateTime.Now}：スタート");
+            //log.Info($"{DateTime.Now}：スタート");
 
             try
             {
                 // html取得文字列
-                string html = GetHtml($"https://www.toysrus.co.jp/search/?q={ConfigurationManager.AppSettings["TargetJanCode"]}");
+                var janCode = ConfigurationManager.AppSettings["TargetGoods"].Split(',')[0];
+                var goodsName = ConfigurationManager.AppSettings["TargetGoods"].Split(',')[1];
+                string html = GetHtml($"https://www.toysrus.co.jp/search/?q={janCode}");
                 var parser = new HtmlParser();
                 var doc = parser.Parse(html);
 
                 var productName = doc.GetElementById("DISP_GOODS_NM");
-                if (productName == null) return;
+                if (productName == null)
+                {
+                    log.Info($"{DateTime.Now}：商品なし");
+                    return;
+                }
 
                 bool hit = false;
                 var isLotManegeYes = doc.GetElementById("isLotManegeYes") as AngleSharp.Dom.Html.IHtmlSpanElement;
@@ -53,23 +60,9 @@ namespace RB10.Bot.Functions.Toysrus
 
                 if (hit)
                 {
-                    using (var client = new HttpClient())
-                    {
-                        // リクエストデータを作成
-                        // ※HttpClientで[application/json]をHTTPヘッダに追加するときは下記のコーディングじゃないとエラーになる
-                        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "https://rb10-bot")
-                        {
-                            Content = new StringContent(reqData, Encoding.UTF8, "application/json")
-                        };
-
-                        //　認証ヘッダーを追加
-                        client.DefaultRequestHeaders.Add("Authorization", $"Bearer {channelAccessToken}");
-
-                        // 非同期でPOST
-                        var res = await client.SendAsync(request);
-
-                        return req.CreateResponse(res.StatusCode);
-                    }
+                    var message = $"【{goodsName}】が見つかりました。\n下記URLから購入を行ってください。\n{html}";
+                    LineMessagingClient lineMessagingClient = new LineMessagingClient(ConfigurationManager.AppSettings["AccessToken"]);
+                    lineMessagingClient.PushMessageAsync(ConfigurationManager.AppSettings["SendUserID"], message);
                 }
             }
             catch (Exception ex)
@@ -78,7 +71,7 @@ namespace RB10.Bot.Functions.Toysrus
             }
             finally
             {
-                log.Info($"{DateTime.Now}：エンド");
+                //log.Info($"{DateTime.Now}：エンド");
             }
         }
 
