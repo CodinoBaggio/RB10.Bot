@@ -31,7 +31,7 @@ namespace RB10.Bot.Functions.Toysrus
                 var productName = doc.GetElementById("DISP_GOODS_NM");
                 if (productName == null)
                 {
-                    log.Info($"{DateTime.Now}：商品なし");
+                    //log.Info($"{DateTime.Now}：商品なし");
                     return;
                 }
 
