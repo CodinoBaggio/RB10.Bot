@@ -1,0 +1,4 @@
+﻿・function.jsonのgeneratedByを削除する。
+　→すべての関数が対象
+・Application settingsのFUNCTION_APP_EDIT_MODEをreadwriteに変更する。
+・サイトの再起動をする。
