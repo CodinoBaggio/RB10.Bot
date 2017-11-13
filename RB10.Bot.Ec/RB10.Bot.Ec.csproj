@@ -79,6 +79,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\RB10.Bot.Core.Selenium\RB10.Bot.Core.Selenium.csproj">
+      <Project>{9a327581-7565-432c-8edb-df390fb1ed33}</Project>
+      <Name>RB10.Bot.Core.Selenium</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RB10.Bot.Library\RB10.Bot.Library.csproj">
       <Project>{b45071e1-1484-43d3-bd65-65b8655f1f11}</Project>
       <Name>RB10.Bot.Library</Name>

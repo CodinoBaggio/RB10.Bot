@@ -1,7 +1,10 @@
 {
-    "IsEncrypted": false,
-    "Values": {
-        "AzureWebJobsStorage": "",
-        "AzureWebJobsDashboard": ""
-    }
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "AzureWebJobsDashboard": "UseDevelopmentStorage=true",
+    "TargetGoods": "4902370535709,Nintendo Switch",
+    "AccessToken": "",
+    "PushUserID": ""
+  }
 }

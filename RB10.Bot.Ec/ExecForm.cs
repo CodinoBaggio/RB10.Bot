@@ -13,7 +13,7 @@ namespace RB10.Bot.Ec
     public partial class ExecForm : Form
     {
         private Library.Configuration _config;
-        private Library.ECSite.ECBase _ec;
+        private Core.Selenium.ECSite.ECBase _ec;
 
         public ExecForm()
         {
@@ -46,7 +46,7 @@ namespace RB10.Bot.Ec
                 if (LoginIDTextBox.Text == "") throw new ApplicationException("ログインIDを入力してください。");
                 if (PasswordTextBox.Text == "") throw new ApplicationException("パスワードを入力してください。");
 
-                var param = new Library.ECSite.Amazon.AmazonParameters
+                var param = new Core.Selenium.ECSite.Amazon.AmazonParameters
                 {
                     WebDriver = GetWebDriverType(),
                     ItemUrl = UrlTextBox.Text,
@@ -60,7 +60,7 @@ namespace RB10.Bot.Ec
                     MailPassword = MailPasswordTextBox.Text
                 };
 
-                _ec = new Library.ECSite.Amazon(param);
+                _ec = new Core.Selenium.ECSite.Amazon(param);
                 _ec.ExecutingStateChanged += Ec_ExecutingStateChanged;
                 _ec.Start();
             }
@@ -92,17 +92,17 @@ namespace RB10.Bot.Ec
             MailPanel.Enabled = chkBox.Checked;
         }
 
-        private Library.ECSite.ECBase.WebDriverType GetWebDriverType()
+        private Core.Selenium.ECSite.ECBase.WebDriverType GetWebDriverType()
         {
-            if (ChromeRadioButton.Checked) return Library.ECSite.ECBase.WebDriverType.Chrome;
-            if (IERadioButton.Checked) return Library.ECSite.ECBase.WebDriverType.IE;
-            if (FirefoxRadioButton.Checked) return Library.ECSite.ECBase.WebDriverType.Firefox;
-            if (SafariRadioButton.Checked) return Library.ECSite.ECBase.WebDriverType.Safari;
+            if (ChromeRadioButton.Checked) return Core.Selenium.ECSite.ECBase.WebDriverType.Chrome;
+            if (IERadioButton.Checked) return Core.Selenium.ECSite.ECBase.WebDriverType.IE;
+            if (FirefoxRadioButton.Checked) return Core.Selenium.ECSite.ECBase.WebDriverType.Firefox;
+            if (SafariRadioButton.Checked) return Core.Selenium.ECSite.ECBase.WebDriverType.Safari;
 
-            return Library.ECSite.ECBase.WebDriverType.Chrome;
+            return Core.Selenium.ECSite.ECBase.WebDriverType.Chrome;
         }
 
-        private void Ec_ExecutingStateChanged(object sender, Library.ECSite.ECBase.ExecutingStateEventArgs e)
+        private void Ec_ExecutingStateChanged(object sender, Core.Selenium.ECSite.ECBase.ExecutingStateEventArgs e)
         {
             Invoke(new LogDelegate(AddLog), e.EcSite, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"), e.ReportState.ToString(), e.Message);
         }
@@ -168,7 +168,7 @@ namespace RB10.Bot.Ec
                 dlg.FileName = System.IO.Path.GetFileNameWithoutExtension(ToysrusJanCodeFilePathTextBox.Text) + "_result.csv";
                 if (dlg.ShowDialog() == DialogResult.Cancel) return;
 
-                var param = new Library.ECSite.Toysrus.ToysrusParameters
+                var param = new Core.Selenium.ECSite.Toysrus.ToysrusParameters
                 {
                     WebDriver = GetWebDriverType(),
                     ItemUrl = ToysrusUrlTextBox.Text,
@@ -176,7 +176,7 @@ namespace RB10.Bot.Ec
                     OutputFilePath = dlg.FileName
                 };
 
-                _ec = new Library.ECSite.Toysrus(param);
+                _ec = new Core.Selenium.ECSite.Toysrus(param);
                 _ec.ExecutingStateChanged += Ec_ExecutingStateChanged;
                 _ec.Start();
             }

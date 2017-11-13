@@ -3,7 +3,6 @@
     <TargetFramework>net461</TargetFramework>
   </PropertyGroup>
   <ItemGroup>    
-    <PackageReference Include="AngleSharp" Version="0.9.9" />    
     <PackageReference Include="Line.Messaging" Version="1.0.1" />    
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.2" />    
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
@@ -23,6 +22,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="LINE\" />
-    <Folder Include="Toysrus\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RB10.Bot.Core\RB10.Bot.Core.csproj" />
   </ItemGroup>
 </Project>
