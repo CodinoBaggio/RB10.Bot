@@ -3,7 +3,7 @@
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
     "AzureWebJobsDashboard": "UseDevelopmentStorage=true",
-    "TargetJanCode": "4902370535709",
+    "TargetGoods": "4902370535709,Nintendo Switch",
     "AccessToken": "42ndcVVsa4VFSJD9vtyuslUG6VLkWz+i96cu5AFJlsjdOgyQx0SZO0k/4sDu7dE7iFoMl34+qBkUKnjecyjWDItkpWmIOtAxGGupCH/93zeKW/jsY4oS5UDXkBPYZunZxlbP8Qv2wH9slZLA5N+3ZAdB04t89/1O/w1cDnyilFU=",
     "PushUserID": "U40ab91bbe212e2256a52157bf13c5705"
   }
