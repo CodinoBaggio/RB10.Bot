@@ -140,5 +140,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RB10.Bot.Core\RB10.Bot.Core.csproj">
+      <Project>{2e0bad5d-70c5-45b9-a2de-49c4273b048e}</Project>
+      <Name>RB10.Bot.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

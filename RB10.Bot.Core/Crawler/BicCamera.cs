@@ -1,27 +1,17 @@
 ﻿using AngleSharp.Parser.Html;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace RB10.Bot.Core.Crawler
 {
-    public class Toysrus
+    public class BicCamera : Toysrus
     {
-        public class Result
+        public override Result Run(string janCode)
         {
-            public string JanCode { get; set; }
-            public string ProductName { get; set; } = "-";
-            public bool Exist { get; set; }
-            public string TargetUrl { get; set; } = "";
-        }
-
-        public virtual Result Run(string janCode)
-        {
-            var url = $"https://www.toysrus.co.jp/search/?q={janCode}";
+            var url = $"https://www.biccamera.com/bc/category/?q={janCode}";
 
             Result result = new Result
             {
@@ -34,7 +24,7 @@ namespace RB10.Bot.Core.Crawler
             var parser = new HtmlParser();
             var doc = parser.Parse(html);
 
-            var productName = doc.GetElementById("DISP_GOODS_NM");
+            var productName = doc.GetElementById("ga_itam_list");
             if (productName == null)
             {
                 return result;
@@ -43,6 +33,10 @@ namespace RB10.Bot.Core.Crawler
             {
                 result.ProductName = productName.InnerHtml;
             }
+
+
+            var ccc = productName.Children[0].Children;
+            var att = ccc.First().GetAttribute("data-item-id");
 
             var isLotManegeYes = doc.GetElementById("isLotManegeYes") as AngleSharp.Dom.Html.IHtmlSpanElement;
             if (isLotManegeYes == null || isLotManegeYes.IsHidden)
