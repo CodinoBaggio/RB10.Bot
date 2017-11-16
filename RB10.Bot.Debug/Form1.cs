@@ -30,5 +30,29 @@ namespace RB10.Bot.Debug
             Core.Crawler.BicCamera crawler = new Core.Crawler.BicCamera();
             crawler.Run("4904810408444");
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            GetGoods(@"4902370535709,Nintendo Switch Joy-Con (L) / (R) グレー|4902370535716,Nintendo Switch [ネオンブルー/ネオンレッド]", 0, out var janCode, out var goodsName);
+
+
+            Core.Crawler.Toysrus crawler = new Core.Crawler.Toysrus();
+            crawler.Run(janCode, true);
+        }
+
+        private static void GetGoods(string config, int index, out string jancode, out string goodsName)
+        {
+            var goodsArr = config.Split('|');
+            if (index + 1 <= goodsArr.Length)
+            {
+                jancode = goodsArr[index].Split(',')[0];
+                goodsName = goodsArr[index].Split(',')[1];
+            }
+            else
+            {
+                jancode = "";
+                goodsName = "";
+            }
+        }
     }
 }

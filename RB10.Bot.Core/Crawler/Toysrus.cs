@@ -19,7 +19,7 @@ namespace RB10.Bot.Core.Crawler
             public string TargetUrl { get; set; } = "";
         }
 
-        public virtual Result Run(string janCode)
+        public virtual Result Run(string janCode, bool useProxy = false)
         {
             var url = $"https://www.toysrus.co.jp/search/?q={janCode}";
 
@@ -30,7 +30,7 @@ namespace RB10.Bot.Core.Crawler
             };
 
             // html取得文字列
-            string html = Utils.GetHtml(url);
+            string html = Utils.GetHtml(url, useProxy);
             var parser = new HtmlParser();
             var doc = parser.Parse(html);
 

@@ -10,7 +10,7 @@ namespace RB10.Bot.Core
 {
     public class Utils
     {
-        public static string GetHtml(string url)
+        public static string GetHtml(string url, bool useProxy = false)
         {
             HttpWebRequest req = null;
 
@@ -19,6 +19,10 @@ namespace RB10.Bot.Core
                 req = (HttpWebRequest)WebRequest.Create(url);
                 req.Timeout = 100000;
                 req.UserAgent = "Rb10Crawler (+codino.baggio10@gmail.com)";
+                if (useProxy)
+                {
+                    req.Proxy = new WebProxy("165084167054.ctinets.com", 8080);
+                }
 
                 // html取得文字列
                 string html = "";

@@ -9,7 +9,7 @@ namespace RB10.Bot.Core.Crawler
 {
     public class BicCamera : Toysrus
     {
-        public override Result Run(string janCode)
+        public override Result Run(string janCode, bool useProxy = false)
         {
             var url = $"https://www.biccamera.com/bc/category/?q={janCode}";
 
